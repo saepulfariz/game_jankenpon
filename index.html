@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <!-- script by saepulfariz 23/04/2021 -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <title>Game Gunting Batu Kertas || JanKenPon</title>
+
+    <!-- https://www.storyblocks.com/audio/search/lose+sound+effect -->
+
+    <style>
+    	img#com{
+    		-ms-transform: rotate(180deg); /* IE 9 */
+			  transform: rotate(180deg);
+    	}
+    	img{
+    		width: 100px;
+    		height: 100px;
+    	}
+
+    	/*script by saepulfariz 23/04/2021*/
+    </style>
+	<!-- https://www.pngwing.com/id/free-png-zbajq -->
+  </head>
+  <body>
+    <div class="container">
+    	<div class="row justify-content-center mt-4 mb-4">
+    		<div class="col-md-7">
+    			<div class="card border border-danger">
+    				<div class="card-header bg-danger text-white">
+    					Game Gabut ^_^ || JanKenPon
+    				</div>
+    				<div class="card-body text-center">
+    					<div class="row">
+    						<div class="col-6">
+    							<img id="com" src="image/gunting.png" alt="Com">
+		    					<h4 id="hasil1">COM WIN</h4>
+		    					<h1 class="text-danger">VS</h1>
+		    					<h4 id="hasil2">YOU LOSE</h4>
+		    					<img id="you" src="image/kertas.png" alt="you">
+    						</div>
+    						<div class="col-6 text-center">
+    							<h2>SKOR ANDA</h2>
+    							<h4>WIN : <span id="setWin"></span></h4>
+    							<h4>SERI : <span id="setSeri"></span></h4>
+    							<h4>LOSE : <span id="setLose"></span></h4>
+    							<h4 class="mt-4">Game : <span id="setGame"></span>X</h4>
+    							<button id="reset" class="btn btn-danger">RESET</button>
+    						</div>
+    					</div>
+    					<div class="row mt-2 border border-danger py-2">
+    						<div class="col-4">
+    							<img id="gunting" class="border py-2 px-2" src="image/gunting.png" alt="">
+    						</div>
+    						<div class="col-4">
+    							<img id="kertas" class="border py-2 px-2" src="image/kertas.png" alt="">
+    						</div>
+    						<div class="col-4">
+    							<img id="batu" class="border py-2 px-2" src="image/batu.png" alt="">
+    						</div>
+    					</div>
+    				</div>
+                    <div class="card-footer bg-info text-center text-white">
+                        Copyright &copy 2021 || PROFA ( Programmer Fasilkom )
+                    </div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+
+    <audio src="sounds/lose.wav" id="lose"></audio>
+    <audio src="sounds/win.wav" id="win"></audio>
+    <audio src="sounds/seri.wav" id="seri"></audio>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+    <script>
+    	// script by saepulfariz 23/04/2021
+    	// https://www.w3schools.com/js/js_random.asp
+    	Math.floor(Math.random() * 100) + 1; // returns a random integer from 1 to 100
+
+
+    	var maxGunting = 350;
+    	var maxKertas = 700;
+    	var maxBatu = 1000;
+
+    	var win = 0;
+    	var seri = 0;
+    	var lose = 0;
+    	var game = 0;
+
+    	var hasil;
+
+    	var gunting = document.getElementById('gunting');
+    	var kertas = document.getElementById('kertas');
+    	var batu = document.getElementById('batu');
+
+    	var com = document.getElementById('com');
+    	var you = document.getElementById('you');
+    	var hasil1 = document.getElementById('hasil1');
+    	var hasil2 = document.getElementById('hasil2');
+
+
+    	var setWin = document.getElementById('setWin');
+    	var setSeri = document.getElementById('setSeri');
+    	var setLose = document.getElementById('setLose');
+    	var setGame = document.getElementById('setGame');
+
+        // sound efect
+        var loseSounds = document.getElementById('lose');
+        var winSounds = document.getElementById('win');
+        var seriSounds = document.getElementById('seri');
+
+    	setWin.innerHTML = win;
+		setSeri.innerHTML = seri;
+		setLose.innerHTML = lose;
+		setGame.innerHTML = game;
+
+		// script by saepulfariz 23/04/2021
+
+
+    	// var random = Math.floor(Math.random() * 1000) + 1; 
+    	// returns a random integer from 1 to 100
+
+
+    	var reset = document.getElementById('reset');
+
+
+
+    	reset.addEventListener('click', function(){
+    		win = 0;
+    		lose = 0;
+    		seri = 0;
+    		game = 0;
+
+    		setWin.innerHTML = win;
+			setSeri.innerHTML = seri;
+			setLose.innerHTML = lose;
+			setGame.innerHTML = game;
+    	})
+
+
+    	gunting.addEventListener('click', function(){
+    		you.setAttribute('src', 'image/gunting.png');
+    		batu.classList.remove("border-danger");
+    		kertas.classList.remove("border-danger");
+    		gunting.classList.add("border-danger");
+    		var random = Math.floor(Math.random() * 1000) + 1;
+
+    		// console.log(random);
+
+    		if (random < maxGunting) {
+    			// maka akan menghasilkan gunting
+    			hasil = "gunting";
+    			// console.log("if ke satu");
+    		}else if (random < maxKertas) {
+    			// maka akan menghasilkan kertas
+    			hasil = "kertas";
+    			// console.log("if ke dua");
+    		}else if(random < maxBatu) {
+    			// maka akan menghasilkan batu
+    			hasil = "batu";
+    			// console.log("if ke tiga");
+    		}
+
+    		if (hasil == "kertas") {
+    			// jika anda pilih kertas dan COM Juga Kertas
+    			com.setAttribute('src', 'image/kertas.png');
+    			hasil1.innerHTML = "COM LOSE";
+    			hasil2.innerHTML = "YOU WIN";
+                winSounds.play();
+    			win += 1;
+    		}else if(hasil == "batu"){
+    			com.setAttribute('src', 'image/batu.png');
+    			hasil1.innerHTML = "COM WIN";
+    			hasil2.innerHTML = "YOU LOSE";
+                loseSounds.play();
+    			lose += 1;
+    		}else if(hasil == "gunting"){
+    			com.setAttribute('src', 'image/gunting.png');
+    			hasil1.innerHTML = "COM SERI";
+    			hasil2.innerHTML = "YOU SERI";
+                seriSounds.play();
+    			seri += 1;
+    		}
+
+    		// script by saepulfariz 23/04/2021
+
+    		game++;
+
+    		setWin.innerHTML = win;
+    		setSeri.innerHTML = seri;
+    		setLose.innerHTML = lose;
+    		setGame.innerHTML = game;
+
+
+
+
+    	})
+
+    	kertas.addEventListener('click', function(){
+    		you.setAttribute('src', 'image/kertas.png');
+    		batu.classList.remove("border-danger");
+    		gunting.classList.remove("border-danger");
+    		kertas.classList.add("border-danger");
+    		var random = Math.floor(Math.random() * 1000) + 1;
+
+    		// console.log(random);
+
+    		if (random < maxGunting) {
+    			// maka akan menghasilkan gunting
+    			hasil = "gunting";
+    			// console.log("if ke satu");
+    		}else if (random < maxKertas) {
+    			// maka akan menghasilkan kertas
+    			hasil = "kertas";
+    			// console.log("if ke dua");
+    		}else if(random < maxBatu) {
+    			// maka akan menghasilkan batu
+    			hasil = "batu";
+    			// console.log("if ke tiga");
+    		}
+
+    		if (hasil == "kertas") {
+    			// jika anda pilih kertas dan COM Juga Kertas
+    			com.setAttribute('src', 'image/kertas.png');
+    			hasil1.innerHTML = "COM SERI";
+    			hasil2.innerHTML = "YOU SERI";
+                seriSounds.play();
+    			seri += 1;
+    		}else if(hasil == "batu"){
+    			com.setAttribute('src', 'image/batu.png');
+    			hasil1.innerHTML = "COM LOSE";
+    			hasil2.innerHTML = "YOU WIN";
+                winSounds.play();
+    			win += 1;
+    		}else if(hasil == "gunting"){
+    			com.setAttribute('src', 'image/gunting.png');
+    			hasil1.innerHTML = "COM WIN";
+    			hasil2.innerHTML = "YOU LOSE";
+                loseSounds.play();
+    			lose += 1;
+    		}
+
+    		// script by saepulfariz 23/04/2021
+
+    		game++;
+
+    		setWin.innerHTML = win;
+    		setSeri.innerHTML = seri;
+    		setLose.innerHTML = lose;
+    		setGame.innerHTML = game;
+
+    	})
+
+    	batu.addEventListener('click', function(){
+    		you.setAttribute('src', 'image/batu.png');
+    		gunting.classList.remove("border-danger");
+    		kertas.classList.remove("border-danger");
+    		batu.classList.add("border-danger");
+    		var random = Math.floor(Math.random() * 1000) + 1;
+
+    		// console.log(random);
+
+    		if (random < maxGunting) {
+    			// maka akan menghasilkan gunting
+    			hasil = "gunting";
+    			// console.log("if ke satu");
+    		}else if (random < maxKertas) {
+    			// maka akan menghasilkan kertas
+    			hasil = "kertas";
+    			// console.log("if ke dua");
+    		}else if(random < maxBatu) {
+    			// maka akan menghasilkan batu
+    			hasil = "batu";
+    			// console.log("if ke tiga");
+    		}
+
+    		if (hasil == "kertas") {
+    			// jika anda pilih kertas dan COM Juga Kertas
+    			com.setAttribute('src', 'image/kertas.png');
+    			hasil1.innerHTML = "COM WIN";
+    			hasil2.innerHTML = "YOU LOSE";
+                loseSounds.play();
+    			lose += 1;
+    		}else if(hasil == "batu"){
+    			com.setAttribute('src', 'image/batu.png');
+    			hasil1.innerHTML = "COM SERI";
+    			hasil2.innerHTML = "YOU SERI";
+                seriSounds.play();
+    			seri += 1;
+    		}else if(hasil == "gunting"){
+    			com.setAttribute('src', 'image/gunting.png');
+    			hasil1.innerHTML = "COM LOSE";
+    			hasil2.innerHTML = "YOU WIN";
+                winSounds.play();
+    			win += 1;
+    		}
+
+    		// script by saepulfariz 23/04/2021
+
+    		game++;
+
+    		setWin.innerHTML = win;
+    		setSeri.innerHTML = seri;
+    		setLose.innerHTML = lose;
+    		setGame.innerHTML = game;
+
+    	})
+
+        // https://www.storyblocks.com/audio/search/lose+sound+effect
+
+        // https://www.storyblocks.com/audio/stock/fail-error-mistake-out-of-time-sound-2-stklbkg8avuk8umfrcx.html
+
+        // berbayar atas
+
+        // lose
+        // https://freesound.org/people/suntemple/sounds/253174/
+
+        // win
+        // https://freesound.org/people/bolkmar/sounds/442324/
+
+        // seri
+        // https://freesound.org/people/Scrampunk/sounds/345299/
+
+
+
+    </script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+    -->
+  </body>
+</html>
